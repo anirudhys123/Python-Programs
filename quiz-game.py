@@ -1,15 +1,27 @@
 def run_quiz(questions):
+    """
+    Function to run a multiple-choice quiz.
+    :param questions: List of question dictionaries containing prompts, options, and answers.
+    """
     score = 0
-    for question in questions:
-        print(question["prompt"])
+    
+    for i, question in enumerate(questions, start=1):
+        print(f"Question {i}: {question['prompt']}")
         for option in question["options"]:
             print(option)
-        answer = input("Enter your answer (A, B, C, or D): ").upper()
+        
+        while True:
+            answer = input("Enter your answer (A, B, C, or D): ").strip().upper()
+            if answer in ["A", "B", "C", "D"]:
+                break
+            print("Invalid input. Please enter A, B, C, or D.")
+        
         if answer == question["answer"]:
             print("Correct!\n")
             score += 1
         else:
-            print("Wrong! The correct answer was", question["answer"], "\n")
+            print(f"Wrong! The correct answer was {question['answer']}\n")
+    
     print(f"You got {score} out of {len(questions)} questions correct.")
 
 # List of quiz questions. Each question is a dictionary.
@@ -37,4 +49,5 @@ questions = [
 ]
 
 # Run the quiz
-run_quiz(questions)
+if __name__ == "__main__":
+    run_quiz(questions)
