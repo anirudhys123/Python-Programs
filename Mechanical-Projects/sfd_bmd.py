@@ -57,7 +57,8 @@ root.geometry("900x600")
 root.configure(bg="#f0f8ff")  # Light azure background
 
 # Heading Label
-title_label = ttk.Label(root, text="SFD and BMD Calculator for Simply Supported Beam for a Single Point Load", font=("Arial", 16, "bold"), background="#f0f8ff", foreground="darkblue")
+title_label = ttk.Label(root, text="SFD and BMD Calculator for Simply Supported Beam for a Single Point Load", 
+                        font=("Arial", 16, "bold"), background="#f0f8ff", foreground="darkblue")
 title_label.grid(row=0, column=0, padx=10, pady=10)
 
 frame = ttk.Frame(root, padding=10, relief="solid", borderwidth=2)
@@ -67,12 +68,22 @@ frame.configure(style="Custom.TFrame")
 # Define Styles
 style = ttk.Style()
 style.configure("Custom.TFrame", background="#f0f8ff")
-style.configure("Custom.TButton", font=("Arial", 12, "bold"), padding=8, background="#005a99", foreground="white")
-style.map("Custom.TButton", background=[("active", "#003d66")])
+
+# Enhanced Button Styling
+style.configure("Custom.TButton",
+                font=("Arial", 14, "bold"),  # Increased font size
+                padding=12,  # Increased padding for better appearance
+                background="#007ACC",  # Bright blue background
+                foreground="Black",  # White text
+                borderwidth=3,  # Added border for prominence
+                relief="raised")  # Raised effect for 3D look
+
+style.map("Custom.TButton", 
+          background=[("active", "#005a99")],  # Darker shade on hover
+          relief=[("pressed", "sunken")])  # Pressed effect for better interaction
 
 label_font = ("Arial", 12, "bold")
 entry_font = ("Arial", 12)
-button_font = ("Arial", 12, "bold")
 
 ttk.Label(frame, text="Beam Length (m):", font=label_font, background="#f0f8ff").grid(row=0, column=0, padx=5, pady=5, sticky='w')
 length_entry = ttk.Entry(frame, font=entry_font, width=10)
@@ -86,16 +97,18 @@ ttk.Label(frame, text="Load Position (m):", font=label_font, background="#f0f8ff
 position_entry = ttk.Entry(frame, font=entry_font, width=10)
 position_entry.grid(row=2, column=1, padx=5, pady=5)
 
-calculate_button = ttk.Button(frame, text="Calculate", command=calculate_sfd_bmd, style='Custom.TButton')
-calculate_button.grid(row=3, column=0, columnspan=2, pady=10)
+# Improved Calculate Button
+calculate_button = ttk.Button(frame, text="🚀 Calculate SFD & BMD 🚀", command=calculate_sfd_bmd, style='Custom.TButton')
+calculate_button.grid(row=3, column=0, columnspan=2, pady=15)
 
 result_label = ttk.Label(frame, text="", font=label_font, background="#f0f8ff")
 result_label.grid(row=4, column=0, columnspan=2)
 
 # Matplotlib Figure - Maximized for Clear Display
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6), facecolor="#ffffff")
-fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.12, wspace=0.3)  # Adjusted margins for clarity
+fig.subplots_adjust(left=0.05, right=0.75, top=0.92, bottom=0.5, wspace=0.3)  # Adjusted margins for clarity
 canvas = FigureCanvasTkAgg(fig, master=root)
 canvas.get_tk_widget().grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
 
 root.mainloop()
+
