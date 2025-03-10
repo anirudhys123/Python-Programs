@@ -111,4 +111,3 @@ canvas = FigureCanvasTkAgg(fig, master=root)
 canvas.get_tk_widget().grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
 
 root.mainloop()
-
