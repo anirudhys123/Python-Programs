@@ -21,6 +21,10 @@ def calculate_sfd_bmd():
         # Bending Moment Calculation
         M = np.piecewise(x, [x < a, x >= a], [lambda x: Ra * x, lambda x: Ra * x - P * (x - a)])
         
+        # Calculate max values
+        max_shear_force = max(abs(V))
+        max_bending_moment = (Ra * a)  # Max bending moment at 'a'
+        
         # Clear previous plots
         ax1.clear()
         ax2.clear()
@@ -47,13 +51,18 @@ def calculate_sfd_bmd():
         
         # Update plots
         canvas.draw()
+
+        # Display max values
+        max_values_label.config(text=f"📌 Maximum Shear Force: {max_shear_force:.2f} N\n📌 Maximum Bending Moment: {max_bending_moment:.2f} Nm", 
+                                font=("Arial", 14, "bold"), foreground="green")
+
     except ValueError:
         result_label.config(text="Invalid input! Please enter valid numbers.", font=("Arial", 14, "bold"), foreground="red")
 
 # GUI Setup
 root = tk.Tk()
 root.title("SFD & BMD Calculator for Simply Supported Beam")
-root.geometry("900x600")
+root.geometry("900x650")
 root.configure(bg="#f0f8ff")  # Light azure background
 
 # Heading Label
@@ -63,7 +72,6 @@ title_label.grid(row=0, column=0, padx=10, pady=10)
 
 frame = ttk.Frame(root, padding=10, relief="solid", borderwidth=2)
 frame.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
-frame.configure(style="Custom.TFrame")
 
 # Define Styles
 style = ttk.Style()
@@ -71,16 +79,16 @@ style.configure("Custom.TFrame", background="#f0f8ff")
 
 # Enhanced Button Styling
 style.configure("Custom.TButton",
-                font=("Arial", 14, "bold"),  # Increased font size
-                padding=12,  # Increased padding for better appearance
-                background="#007ACC",  # Bright blue background
-                foreground="Black",  # White text
-                borderwidth=3,  # Added border for prominence
-                relief="raised")  # Raised effect for 3D look
+                font=("Arial", 14, "bold"),  
+                padding=12,  
+                background="#007ACC",  
+                foreground="Black",  
+                borderwidth=3,  
+                relief="raised")  
 
 style.map("Custom.TButton", 
-          background=[("active", "#005a99")],  # Darker shade on hover
-          relief=[("pressed", "sunken")])  # Pressed effect for better interaction
+          background=[("active", "#005a99")],  
+          relief=[("pressed", "sunken")])  
 
 label_font = ("Arial", 12, "bold")
 entry_font = ("Arial", 12)
@@ -109,5 +117,9 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6), facecolor="#ffffff")
 fig.subplots_adjust(left=0.05, right=0.75, top=0.92, bottom=0.5, wspace=0.3)  # Adjusted margins for clarity
 canvas = FigureCanvasTkAgg(fig, master=root)
 canvas.get_tk_widget().grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+
+# Label to Display Maximum SFD & BMD
+max_values_label = ttk.Label(root, text="", font=("Arial", 14, "bold"), background="#f0f8ff", foreground="green")
+max_values_label.grid(row=3, column=0, padx=10, pady=10)
 
 root.mainloop()
